@@ -1,6 +1,21 @@
-import React from "react";
+import React, { useContext } from "react";
 import styled from "styled-components";
 import PokemonCard from "./PokemonCard";
+import { PokemonContext } from "../pages/Dex";
+import MOCK_DATA from "../mock";
+
+const PokemonList = () => {
+  const { addPokemon } = useContext(PokemonContext);
+  return (
+    <ListContainer>
+      {MOCK_DATA.map((pokemon) => (
+        <PokemonCard key={pokemon.id} pokemon={pokemon} />
+      ))}
+    </ListContainer>
+  );
+};
+
+export default PokemonList;
 
 const ListContainer = styled.div`
   display: grid;
@@ -11,21 +26,3 @@ const ListContainer = styled.div`
   border: 1px solid rgb(221, 221, 221);
   border-radius: 10px;
 `;
-
-const PokemonList = ({ pokemonList, onAddPokemon }) => {
-  return (
-    <ListContainer>
-      {pokemonList.map((pokemon) => (
-        <PokemonCard
-          key={pokemon.id}
-          pokemon={pokemon}
-          onAdd={() => {
-            onAddPokemon(pokemon);
-          }}
-        />
-      ))}
-    </ListContainer>
-  );
-};
-
-export default PokemonList;

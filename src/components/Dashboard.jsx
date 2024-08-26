@@ -1,5 +1,37 @@
-import React from "react";
+import React, { useContext } from "react";
 import styled from "styled-components";
+import { PokemonContext } from "../pages/Dex";
+
+const MAX_CARDS = 6;
+
+const Dashboard = () => {
+  const { selectedPokemon, removePokemon } = useContext(PokemonContext);
+  const emptySlots = MAX_CARDS - selectedPokemon.length;
+
+  return (
+    <DashboardContainer>
+      <h2>나만의 포켓몬</h2>
+      <SelectedCardList>
+        {selectedPokemon.map((pokemon) => (
+          <SelectedCard key={pokemon.id}>
+            <img src={pokemon.img} alt="none" />
+            <p>{pokemon.name}</p>
+            <p>No.{pokemon.id}</p>
+            <Button onClick={() => removePokemon(pokemon)}>삭제</Button>
+          </SelectedCard>
+        ))}
+
+        {Array.from({ length: emptySlots }).map((_, index) => (
+          <EmptyCard key={`empty-${index}`}>
+            <img src="questionmark.png" alt="" />
+          </EmptyCard>
+        ))}
+      </SelectedCardList>
+    </DashboardContainer>
+  );
+};
+
+export default Dashboard;
 
 const DashboardContainer = styled.div`
   display: flex;
@@ -61,33 +93,3 @@ const Button = styled.button`
     background-color: rgb(200, 0, 0); /* 호버 시 배경색 */
   }
 `;
-
-const MAX_CARDS = 6;
-
-const Dashboard = ({ selectedPokemon, onRemovePokemon }) => {
-  const emptySlots = MAX_CARDS - selectedPokemon.length;
-
-  return (
-    <DashboardContainer>
-      <h2>나만의 포켓몬</h2>
-      <SelectedCardList>
-        {selectedPokemon.map((pokemon) => (
-          <SelectedCard key={pokemon.id}>
-            <img src={pokemon.img} alt="none" />
-            <p>{pokemon.name}</p>
-            <p>No.{pokemon.id}</p>
-            <Button onClick={() => onRemovePokemon(pokemon)}>삭제</Button>
-          </SelectedCard>
-        ))}
-
-        {Array.from({ length: emptySlots }).map((_, index) => (
-          <EmptyCard key={`empty-${index}`}>
-            <img src="questionmark.png" alt="" />
-          </EmptyCard>
-        ))}
-      </SelectedCardList>
-    </DashboardContainer>
-  );
-};
-
-export default Dashboard;

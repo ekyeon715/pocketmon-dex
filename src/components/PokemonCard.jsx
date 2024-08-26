@@ -1,6 +1,33 @@
-import React from "react";
+import React, { useContext } from "react";
 import { useNavigate } from "react-router-dom";
 import styled from "styled-components";
+import { PokemonContext } from "../pages/Dex";
+
+function PokemonCard({ pokemon }) {
+  const navigate = useNavigate();
+  const { addPokemon } = useContext(PokemonContext);
+  return (
+    <Card
+      onClick={() => {
+        navigate(`/PokemonDetail?id=${pokemon.id}`);
+      }}
+    >
+      <img src={pokemon.img_url} alt={""} />
+      <p>{pokemon.korean_name}</p>
+      <p>No.{pokemon.id}</p>
+      <Button
+        onClick={(e) => {
+          e.stopPropagation();
+          addPokemon(pokemon);
+        }}
+      >
+        추가
+      </Button>
+    </Card>
+  );
+}
+
+export default PokemonCard;
 
 const Card = styled.div`
   border: 1px solid rgb(221, 221, 221);
@@ -33,29 +60,3 @@ const Button = styled.button`
     background-color: rgb(200, 0, 0); /* 호버 시 배경색 */
   }
 `;
-
-function PokemonCard({ pokemon, onAdd }) {
-  const navigate = useNavigate();
-  console.log(pokemon);
-  return (
-    <Card
-      onClick={() => {
-        navigate(`/PokemonDetail?id=${pokemon.id}`);
-      }}
-    >
-      <img src={pokemon.img_url} alt={""} />
-      <p>{pokemon.korean_name}</p>
-      <p>No.{pokemon.id}</p>
-      <Button
-        onClick={(e) => {
-          e.stopPropagation();
-          onAdd();
-        }}
-      >
-        추가
-      </Button>
-    </Card>
-  );
-}
-
-export default PokemonCard;

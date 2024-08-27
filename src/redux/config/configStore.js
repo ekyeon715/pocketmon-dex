@@ -1,6 +1,10 @@
-import { combineReducers, createStore } from "redux";
+import { configureStore } from "@reduxjs/toolkit";
+import pokemonSlice from "../slices/pokemonSlice";
 
-const rootReducer = combineReducers({});
-const store = createStore(rootReducer);
+const store = configureStore({
+  reducer: {
+    pokemon: pokemonSlice,
+  },
+});
 
 export default store;

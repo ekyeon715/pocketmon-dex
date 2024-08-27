@@ -1,10 +1,14 @@
 import React, { createContext, useState } from "react";
 import Dashboard from "../components/Dashboard";
 import PokemonList from "../components/PokemonList";
+import { useSelector } from "react-redux";
 
 export const PokemonContext = createContext();
 
 const Dex = () => {
+  const pokemonReducer = useSelector((state) => {
+    return state.pokemon;
+  });
   const [selectedPokemon, setSelectedPokemon] = useState([]);
   const [countCard, setCountCard] = useState(0);
 
